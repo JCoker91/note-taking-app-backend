@@ -1,0 +1,21 @@
+name: Test
+on:
+  pull_request:
+    branches: ["main"]
+    types: opened
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-python@v2
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run tests
+        run: flake8 .
+      - name: install pip dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest
